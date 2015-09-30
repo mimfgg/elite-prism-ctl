@@ -1,0 +1,6 @@
+#
+# cp xx-elite-prism.rules /etc/udev/rules.d/94-elite-prism.rules
+# sudo restart udev
+# unplug/replug your prism soundcard if it was already plugged in
+#
+KERNEL=="hidraw*", MODE="0666"
