@@ -42,24 +42,24 @@ def prompt_for_led_color():
     colorselect = dialog.colorsel
     current_color = Config.read().color
     colorselect.set_current_color(gtk.gdk.Color(current_color))
-    colorselect.connect("color_changed", lambda widget: set_led_color(__to_hex(colorselect.get_current_color()), False))
+    colorselect.connect("color_changed", lambda widget: set_led_color(__gdk_color_to_hex(colorselect.get_current_color()), False))
     if dialog.run() != gtk.RESPONSE_OK:
         set_led_color(current_color, False)
         logger.warn('No color selected.')
     else:
-        set_led_color(__to_hex(colorselect.get_current_color()))
+        set_led_color(__gdk_color_to_hex(colorselect.get_current_color()))
     dialog.destroy()
 
 
 def set_led_color(color, persist=True):
     color = __parseColor(color)
-    hex = "#%0.2x%0.2x%0.2x" % color
     device_path = find_device_path()
     # set the color
     __send("0x010x000x040x000x090x000x000x230x2d0xb30x010x000x000x000x000x000x000x000x010x000x000x000x200x%0.2x0x%0.2x0x%0.2x" % color, device_path)
     # probably commit
     __send("0x010x000x010x000x0a0x000x000x230x2d0xb30x01", device_path)
     if persist is True:
+        hex = "#%0.2x%0.2x%0.2x" % color
         logger.debug("persisting led color as " + hex + " for device " + device_path)
         Config(hex).write()
 
@@ -77,7 +77,7 @@ def __parseColor(color):
         return webcolors.hex_to_rgb(color)
 
 
-def __to_hex(color):
+def __gdk_color_to_hex(color):
     return "#%0.2x%0.2x%0.2x" % (color.red / 256, color.green / 256, color.blue / 256)
 
 
@@ -134,10 +134,10 @@ def main():
     logging.getLogger().addHandler(console)
     logging.getLogger().setLevel(logging.DEBUG)
     # command line arguments
-    parser = argparse.ArgumentParser(description="A tool to configure the SteelSeries Elite Prism HeadSet")
+    parser = argparse.ArgumentParser(description="A tool to configure the SteelSeries Elite Prism Headset")
     parser.add_argument("--set-color", type=str, metavar="COLOR", help="set the color to the given valid css color name or hex string and exit")
-    parser.add_argument("--reload", default=None, action='store_true', help="reload settings from the config file and exit")
-    parser.add_argument("--as-indicator", default=None, action='store_true', help="start a panel indicator")
+    parser.add_argument("--reload", default=None, action='store_true', help="reload settings from the configuration file and exit")
+    parser.add_argument("--as-indicator", default=None, action='store_true', help="start as a panel indicator")
 
     if len(sys.argv) == 1:
         parser.print_help()
