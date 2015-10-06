@@ -7,7 +7,7 @@ a simple tool to configure the SteelSeries Elite Prism Headset on Linux
 installation
 --------
 
-this project depends on the following python library:
+this project depends on the following python libraries:
 
     appindicator gtk pyudev webcolors yaml
 
