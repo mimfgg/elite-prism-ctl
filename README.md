@@ -7,12 +7,25 @@ a simple tool to configure the SteelSeries Elite Prism Headset on Linux
 installation
 --------
 
+this project depends on the following python library:
+
+    appindicator gtk pyudev webcolors yaml
+
+for example, on Ubuntu, you would have to install the following packages:
+
+    sudo apt-get install python-appindicator python-gtk2 python-pyudev python-webcolors python-yaml
+
+get the code:
+
     git clone https://github.com/mimfgg/elite-prism-ctl.git
     cd elite-prism-ctl
+
+by default, your user cannot write to the device of your soundcard because of restrictive permissions, we need to add this kernel rule:
+
     sudo cp xx-elite-prism.rules /etc/udev/rules.d/94-elite-prism.rules
     sudo restart udev
 
- unplug/replug your prism soundcard if it was already plugged in, then starts with:
+unplug/replug your prism soundcard if it was already plugged in, then starts as an indicator with:
 
     python ./elite-prism-ctl.py --as-indicator
 
