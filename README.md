@@ -25,7 +25,7 @@ by default, your user cannot write to the device of your soundcard because of re
     sudo cp xx-elite-prism.rules /etc/udev/rules.d/94-elite-prism.rules
     sudo restart udev
 
-unplug/replug your prism soundcard if it was already plugged in, then starts as an indicator with:
+unplug/replug your prism soundcard if it was already plugged in, then start as an indicator with:
 
     python ./elite-prism-ctl.py --as-indicator
 
